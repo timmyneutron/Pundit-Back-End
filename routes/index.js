@@ -1,5 +1,7 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express')
+const Post = require('../models/posts')
+
+const router = express.Router()
 
 router.get('/', (req, res) => {
 	res.status(200).send('Hello world!')
@@ -18,6 +20,8 @@ router.get('/posts', (req, res) => {
 })
 
 router.post('/posts', (req, res) => {
+
+
 	res.status(200).send('create post')
 })
 
