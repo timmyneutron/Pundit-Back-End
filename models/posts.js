@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const CommentSchema = require('./comments')
+const Category = require('./categories')
 
 const PostSchema = new mongoose.Schema({
 	author: {
@@ -19,7 +20,8 @@ const PostSchema = new mongoose.Schema({
 	},
 	category: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Category'
+		ref: 'Category',
+		required: true
 	},
 	timestamp: {
 		type: Date,

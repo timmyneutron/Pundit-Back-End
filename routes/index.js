@@ -4,16 +4,38 @@ const Post = require('../models/posts')
 
 const router = express.Router()
 
-router.get('/', (req, res) => {
-	res.status(200).send('Hello world!')
+router.get('/categories', (req, res, next) => {
+	Category.find()
+	.exec((err, categories) => {
+		if (err) {
+			return next(err)
+		} else {
+			res.status(200).send(categories)
+		}
+	})
 })
 
-router.get('/categories', (req, res) => {
-	res.status(200).send('categories')
+router.post('/categories', (req, res, next) => {
+	const { name, path } = req.body
+	Category.create({ name, path })
+	.exec((err, result) => {
+		if (err) {
+			return next(err)
+		} else {
+			res.status(200).send(result)
+		}
+	})
 })
 
-router.get('/:category/posts', (req, res) => {
-	res.status(200).send('posts for a single category')
+router.get('/:category/posts', (req, res, next) => {
+	Post.find({ 'category.name': req.params.category })
+	.exec((err, posts) => {
+		if (err) {
+			return next(err)
+		} else {
+			res.status(200).send(posts)
+		}
+	})
 })
 
 router.get('/posts', (req, res) => {

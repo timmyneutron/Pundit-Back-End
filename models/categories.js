@@ -4,7 +4,8 @@ const CategorySchema = new mongoose.Schema({
 	name: {
 		type: String,
 		required: true,
-		unique: true
+		unique: true,
+    removeEmptyStrings: false
 	},
 	path: {
 		type: String,
@@ -16,6 +17,3 @@ const CategorySchema = new mongoose.Schema({
 const Category = mongoose.model('Category', CategorySchema)
 
 module.exports = Category
-
-
-

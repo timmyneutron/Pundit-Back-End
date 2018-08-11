@@ -10,9 +10,10 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 mongoose.connect("mongodb://localhost:27017/pundit", { useNewUrlParser: true })
-.catch(() => console.log("\nThere was an error connecting to the database."))
 
 const db = mongoose.connection
+
+db.on('error', error => console.log(`ERROR: ${error.message}`))
 
 app.use('/', routes)
 
