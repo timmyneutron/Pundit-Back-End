@@ -9,7 +9,9 @@ const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-mongoose.connect("mongodb://localhost:27017/pundit", { useNewUrlParser: true })
+console.log(process.env)
+
+mongoose.connect(process.env.MONGODB_URI)
 
 const db = mongoose.connection
 
