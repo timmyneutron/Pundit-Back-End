@@ -18,10 +18,10 @@ const PostSchema = new mongoose.Schema({
 		required: true,
 		trim: true
 	},
-	category: {
-		type: mongoose.Schema.Types.ObjectId,
-		ref: 'Category',
-		required: true
+	title: {
+		type: String,
+		required: true,
+		trim: true
 	},
 	timestamp: {
 		type: Date,
