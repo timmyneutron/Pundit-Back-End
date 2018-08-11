@@ -1,4 +1,5 @@
 const express = require('express')
+const Category = require('../models/categories')
 const Post = require('../models/posts')
 
 const router = express.Router()
