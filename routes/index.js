@@ -39,13 +39,21 @@ router.get('/:category/posts', (req, res, next) => {
 })
 
 router.get('/posts', (req, res) => {
-	res.status(200).send('posts')
+	Post.find()
+	.exec((err, posts) => {
+		if (err) {
+			return next(err)
+		} else {
+			res.status(200).send(posts)
+		}
+	})
 })
 
 router.post('/posts', (req, res) => {
-
-
-	res.status(200).send('create post')
+	const { author, title, body, category } = req.body
+	Post.create({ author, title, body, category })
+	.then(result => res.status(200).send(result))
+	.catch(err => next(err))
 })
 
 router.get('/posts/:id', (req, res) => {

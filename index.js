@@ -9,8 +9,6 @@ const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-console.log(process.env)
-
 mongoose.connect(process.env.MONGODB_URI)
 
 const db = mongoose.connection
