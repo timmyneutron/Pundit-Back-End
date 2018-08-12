@@ -1,3 +1,4 @@
+const mongoose = require('mongoose')
 const Category = require('./Category')
 const Post = require('./Post')
 const Comment = require('./Comment')

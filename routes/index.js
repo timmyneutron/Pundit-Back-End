@@ -1,12 +1,14 @@
 const express = require('express')
+const mongoose = require('mongoose')
 const Category = require('../models/Category')
 const Post = require('../models/Post')
+const Comment = require('../models/Comment')
 
 const router = express.Router()
 
 router.get('/categories', (req, res, next) => {
-	Category.find()
-	.exec((err, categories) => {
+	console.log("\n\t...Request received: GET /categories")
+	Category.find({}, (err, categories) => {
 		if (err) {
 			return next(err)
 		} else {
@@ -16,20 +18,20 @@ router.get('/categories', (req, res, next) => {
 })
 
 router.get('/:category/posts', (req, res, next) => {
-	Post.find({ category: req.params.category })
-	.exec((err, posts) => {
+	const { category }  = req.params
+	console.log(`\n\t...Request received: GET /${category}/posts`)
+	Post.find({ category }, (err, posts) => {
 		if (err) {
 			return next(err)
 		} else {
-			console.log(posts)
 			res.status(200).send(posts)
 		}
 	})
 })
 
 router.get('/posts', (req, res) => {
-	Post.find()
-	.exec((err, posts) => {
+	console.log("\n\t...Request received: GET /posts")
+	Post.find({}, (err, posts) => {
 		if (err) {
 			return next(err)
 		} else {
@@ -39,15 +41,11 @@ router.get('/posts', (req, res) => {
 })
 
 router.post('/posts', (req, res) => {
-	const { author, title, body, category } = req.body
-	Post.create({ author, title, body, category })
-	.then(result => res.status(200).send(result))
-	.catch(err => next(err))
+	res.status(200).send('create post')
 })
 
 router.get('/posts/:id', (req, res) => {
-	Post.findById(req.params.id)
-	.exec((err, post) => {
+	Post.findById(req.params.id, (err, post) => {
 		if (err) {
 			return next(err)
 		} else {
@@ -65,11 +63,23 @@ router.put('/posts/:id', (req, res) => {
 })
 
 router.get('/posts/:id/comments', (req, res) => {
-	res.status(200).send('comments for a post')
+	Comment.find({parentId: req.params.id}, (err, comments) => {
+		if (err) {
+			return next(err)
+		} else {
+			res.status(200).send(comments)
+		}
+	})
 })
 
 router.get('/comments/:id', (req, res) => {
-	res.status(200).send('single comment')
+	Comment.findById(req.params.id, (err, comment) => {
+		if (err) {
+			return next(err)
+		} else {
+			res.status(200).send(comment)
+		}
+	})
 })
 
 router.put('/comments/:id', (req, res) => {
@@ -81,7 +91,7 @@ router.post('/comments', (req, res) => {
 })
 
 router.put('/comments/:id', (req, res) => {
-	res.status(200).send('edit comment')
+	res.status(200).send('update comment')
 })
 
 router.delete('/comments/:id', (req, res) => {
