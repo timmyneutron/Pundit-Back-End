@@ -1,14 +1,13 @@
 const mongoose = require('mongoose')
-const CommentSchema = require('./comments')
-const Category = require('./categories')
 
 const PostSchema = new mongoose.Schema({
-	author: {
+	title: {
 		type: String,
 		required: true,
-		trim: true
+		trim: true,
+		unique: true
 	},
-	title: {
+	author: {
 		type: String,
 		required: true,
 		trim: true
@@ -23,12 +22,17 @@ const PostSchema = new mongoose.Schema({
 		required: true,
 		trim: true
 	},
+	category: {
+		type: String,
+		required: true,
+		trim: true
+	},
 	timestamp: {
 		type: Date,
 		required: true,
 		default: Date.now
 	},
-	score: {
+	voteScore: {
 		type: Number,
 		required: true,
 		default: 0
@@ -37,8 +41,7 @@ const PostSchema = new mongoose.Schema({
 		type: Number,
 		required: true,
 		default: 0
-	},
-	comments: [CommentSchema]
+	}
 })
 
 const Post = mongoose.model('Post', PostSchema)

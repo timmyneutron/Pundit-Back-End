@@ -1,23 +1,11 @@
 const express = require('express')
-const Category = require('../models/categories')
-const Post = require('../models/posts')
+const Category = require('../models/Category')
+const Post = require('../models/Post')
 
 const router = express.Router()
 
 router.get('/categories', (req, res, next) => {
 	Category.find()
-	.exec((err, categories) => {
-		if (err) {
-			return next(err)
-		} else {
-			res.status(200).send(categories)
-		}
-	})
-})
-
-router.post('/categories', (req, res, next) => {
-	const { name, path } = req.body
-	Category.create({ name, path })
 	.exec((err, categories) => {
 		if (err) {
 			return next(err)
@@ -33,6 +21,7 @@ router.get('/:category/posts', (req, res, next) => {
 		if (err) {
 			return next(err)
 		} else {
+			console.log(posts)
 			res.status(200).send(posts)
 		}
 	})
@@ -57,7 +46,14 @@ router.post('/posts', (req, res) => {
 })
 
 router.get('/posts/:id', (req, res) => {
-	res.status(200).send('single post')
+	Post.findById(req.params.id)
+	.exec((err, post) => {
+		if (err) {
+			return next(err)
+		} else {
+			res.status(200).send(post)
+		}
+	})
 })
 
 router.delete('/posts/:id', (req, res) => {

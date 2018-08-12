@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 
 const CommentSchema = new mongoose.Schema({
+	parentId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Post',
+		required: true
+	},
 	author: {
 		type: String,
 		required: true,
@@ -16,11 +21,13 @@ const CommentSchema = new mongoose.Schema({
 		required: true,
 		default: Date.now
 	},
-	score: {
+	voteScore: {
 		type: Number,
 		required: true,
 		default: 0
 	}
 })
 
-module.exports = CommentSchema
+const Comment = mongoose.model('Comment', CommentSchema)
+
+module.exports = Comment
