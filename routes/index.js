@@ -7,6 +7,11 @@ const Comment = require('../models/Comment')
 const router = express.Router()
 
 router.get('/categories', (req, res, next) => {
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  
 	console.log("\n\t...Request received: GET /categories")
 	Category.find({}, (err, categories) => {
 		if (err) {
@@ -18,6 +23,11 @@ router.get('/categories', (req, res, next) => {
 })
 
 router.get('/:category/posts', (req, res, next) => {
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  
 	const { category }  = req.params
 	console.log(`\n\t...Request received: GET /${category}/posts`)
 	Post.find({ category }, (err, posts) => {
@@ -30,6 +40,11 @@ router.get('/:category/posts', (req, res, next) => {
 })
 
 router.get('/posts', (req, res) => {
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  
 	console.log("\n\t...Request received: GET /posts")
 	Post.find({}, (err, posts) => {
 		if (err) {
@@ -56,6 +71,11 @@ router.post('/posts', (req, res) => {
 })
 
 router.get('/posts/:id', (req, res) => {
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  
 	Post.findById(req.params.id, (err, post) => {
 		if (err) {
 			return next(err)
@@ -66,7 +86,25 @@ router.get('/posts/:id', (req, res) => {
 })
 
 router.delete('/posts/:id', (req, res) => {
-	res.status(200).send('delete post')
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  
+	Post.deleteOne({ _id: req.params.id }, (err, postResult) => {
+		if (err) {
+			return next(err)
+		} else {
+			Comment.deleteMany({ parentId: req.params.id }, (err, commentResult) => {
+				if (err) {
+					return next(err)
+				} else {
+					const combinedResult = { postResult, commentResult }
+					res.status(200).send(combinedResult)
+				}
+			})
+		}
+	})
 })
 
 router.put('/posts/:id', (req, res) => {
@@ -85,6 +123,11 @@ router.put('/posts/:id', (req, res) => {
 })
 
 router.get('/posts/:id/comments', (req, res) => {
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  
 	Comment.find({parentId: req.params.id}, (err, comments) => {
 		if (err) {
 			return next(err)
@@ -95,6 +138,11 @@ router.get('/posts/:id/comments', (req, res) => {
 })
 
 router.get('/comments/:id', (req, res) => {
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+  
 	Comment.findById(req.params.id, (err, comment) => {
 		if (err) {
 			return next(err)
@@ -105,6 +153,11 @@ router.get('/comments/:id', (req, res) => {
 })
 
 router.put('/comments/:id', (req, res) => {
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+
 	Comment.findOneAndUpdate({ _id: req.params.id }, req.body, {new: true}, (err, result) => {
 		if (err) {
 			return next(err)
@@ -130,7 +183,18 @@ router.post('/comments', (req, res) => {
 })
 
 router.delete('/comments/:id', (req, res) => {
-	res.status(200).send('delete comment')
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+
+	Comment.deleteOne({ _id: req.params.id }, (err, result) => {
+		if (err) {
+			return next(err)
+		} else {
+			res.status(200).send(result)
+		}
+	})
 })
 
 module.exports = router;
