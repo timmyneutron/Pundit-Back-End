@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const routes = require('./routes')
+const loadDefaultData = require('./models/defaultData')
 
 const app = express()
 app.use(bodyParser.json())
@@ -19,7 +20,9 @@ const db = mongoose.connection
 
 db.on('error', error => console.log(`ERROR: ${error.message}`))
 
-loadDefaultData()
+if (process.env.DEFAULT_DATA) {
+	loadDefaultData()
+}
 
 app.use('/', routes)
 
