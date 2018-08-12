@@ -1,5 +1,5 @@
 const express = require('express')
-const mongoose = require('mongoose')
+const { validationResult } = require('express-validator/check')
 const Category = require('../models/Category')
 const Post = require('../models/Post')
 const Comment = require('../models/Comment')
@@ -41,7 +41,18 @@ router.get('/posts', (req, res) => {
 })
 
 router.post('/posts', (req, res) => {
-	res.status(200).send('create post')
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+
+	Post.create(req.body, (err, post) => {
+		if (err) {
+			return next(err)
+		} else {
+			res.status(200).send(post)
+		}
+	})
 })
 
 router.get('/posts/:id', (req, res) => {
@@ -87,7 +98,18 @@ router.put('/comments/:id', (req, res) => {
 })
 
 router.post('/comments', (req, res) => {
-	res.status(200).send('new comment')
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+
+  Comment.create(req.body, (err, comment) => {
+  	if (err) {
+  		return next(err)
+  	} else {
+  		res.status(200).send(comment)
+  	}
+  })
 })
 
 router.put('/comments/:id', (req, res) => {
