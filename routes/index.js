@@ -70,7 +70,18 @@ router.delete('/posts/:id', (req, res) => {
 })
 
 router.put('/posts/:id', (req, res) => {
-	res.status(200).send('edit post')
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+
+	Post.findOneAndUpdate({ _id: req.params.id }, req.body, {new: true}, (err, result) => {
+		if (err) {
+			return next(err)
+		} else {
+			res.status(200).send(result)
+		}
+	})
 })
 
 router.get('/posts/:id/comments', (req, res) => {
@@ -94,7 +105,13 @@ router.get('/comments/:id', (req, res) => {
 })
 
 router.put('/comments/:id', (req, res) => {
-	res.status(200).send('edit comment')
+	Comment.findOneAndUpdate({ _id: req.params.id }, req.body, {new: true}, (err, result) => {
+		if (err) {
+			return next(err)
+		} else {
+			res.status(200).send(result)
+		}
+	})
 })
 
 router.post('/comments', (req, res) => {
@@ -110,10 +127,6 @@ router.post('/comments', (req, res) => {
   		res.status(200).send(comment)
   	}
   })
-})
-
-router.put('/comments/:id', (req, res) => {
-	res.status(200).send('update comment')
 })
 
 router.delete('/comments/:id', (req, res) => {
