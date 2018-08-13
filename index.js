@@ -20,7 +20,7 @@ const db = mongoose.connection
 
 db.on('error', error => console.log(`ERROR: ${error.message}`))
 
-if (process.env.DEFAULT_DATA) {
+if (process.env.DEFAULT_DATA === 'true') {
 	loadDefaultData()
 }
 
