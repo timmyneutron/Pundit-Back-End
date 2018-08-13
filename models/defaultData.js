@@ -10,20 +10,16 @@ function loadDefaultData() {
 		} else {
 			const defaultCategories = [
 		    {
-		      name: 'all',
-		      path: '/'
-		    },
-		    {
 		      name: 'puns',
-		      path: '/puns'
+		      path: 'puns'
 		    },
 		    {
 		      name: 'dad jokes',
-		      path: '/dadjokes'
+		      path: 'dadjokes'
 		    },
 		    {
 		      name: 'word play',
-		      path: '/wordplay'
+		      path: 'wordplay'
 		    }
 			]
 
@@ -65,7 +61,7 @@ function loadDefaultData() {
 			    title: "Did you hear there's a restaurant on the moon?",
 			    body: "The food is good, but there's not much atmosphere.",
 			    author: 'timmyneutron',
-			    category: 'dad jokes',
+			    category: 'dadjokes',
 			    voteScore: 21,
 			    commentCount: 1
 				},
@@ -74,7 +70,7 @@ function loadDefaultData() {
 			    title: "'I live by the church' 'Art thou a churchman?'",
 			    body: "No such matter, sir. I do live by the church; for I do live at my house, and my house doth stand by the church.",
 			    author: 'willyshakes',
-			    category: 'word play',
+			    category: 'wordplay',
 			    voteScore: 13,
 			    commentCount: 1
 				},
@@ -92,7 +88,7 @@ function loadDefaultData() {
 			    title: "'Whose grave’s this, sirrah?' 'Mine, sir.'",
 			    body: "'I think it be thine, indeed, for thou liest in it.' - 'You lie out on it, sir, and therefore it is not yours. For my part, I do not lie in it, and yet it is mine.'",
 			    author: 'willyshakes',
-			    category: 'word play',
+			    category: 'wordplay',
 			    voteScore: 28,
 			    commentCount: 2
 				},
@@ -110,7 +106,7 @@ function loadDefaultData() {
 			    title: "I watched a car crush a Coke can today.",
 			    body: "I shouldn't be sad about it, but it was just soda pressing...",
 			    author: 'timmyneutron',
-			    category: 'dad jokes',
+			    category: 'dadjokes',
 			    voteScore: 32,
 			    commentCount: 1
 				}
