@@ -9,6 +9,7 @@ const router = express.Router()
 // Get all categories
 router.get('/categories', (req, res, next) => {
 	// console.log("\n...Request received: GET /categories")
+	res.status(200).send({foo: "bar"})
 
 	Category.find({}, (err, categories) => {
 		if (err) {

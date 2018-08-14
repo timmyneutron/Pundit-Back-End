@@ -30,6 +30,7 @@ app.use((err, req, res, next) => {
 	res.status(err.status || 500).send(err)
 })
 
-app.listen(3001, () => {
-	console.log(`\nListening on port 3001...\n`)
+const port = process.env.post || 3001
+app.listen(port, () => {
+	console.log(`\nListening on port ${port}...\n`)
 })
