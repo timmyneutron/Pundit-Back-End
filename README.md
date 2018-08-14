@@ -24,17 +24,6 @@ Concepts explored in this project:
 
 ## Getting Started
 The project is hosted at [http://pundit.timabrahamsen.com](http://pundit.timabrahamsen.com).
-
-To view/edit the source code:
-
-  - Install [Yarn](https://yarnpkg.com/lang/en/docs/install)
-  - Download/clone the repository
-  - Navigate to the root directory and execute:
-
-  ```sh
-  $ yarn install
-  $ yarn start
-  ```
   
 ## Other Details
 The back end for this project is based off of [starter code from the instructors at Udacity](https://github.com/udacity/reactnd-project-readable-starter).
