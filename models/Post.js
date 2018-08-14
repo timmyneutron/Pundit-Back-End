@@ -35,11 +35,6 @@ const PostSchema = new mongoose.Schema({
 		type: Number,
 		required: true,
 		default: 0
-	},
-	deleted : {
-		type: Boolean,
-		required: true,
-		default: false
 	}
 })
 
