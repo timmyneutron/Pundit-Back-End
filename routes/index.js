@@ -34,12 +34,13 @@ router.get('/posts', (req, res, next) => {
 
 // Get posts for single category
 router.get('/:category/posts', (req, res, next) => {
-	// console.log(`\n...Request received: GET /${req.params.category}`)
+	console.log(`\n...Request received: GET /${req.params.category}/posts`)
 	
-	Post.find({ category }, (err, posts) => {
+	Post.find({ category: req.params.category }, (err, posts) => {
 		if (err) {
 			return next(err)
 		} else {
+			console.log(posts)
 			res.status(200).send(posts)
 		}
 	})
