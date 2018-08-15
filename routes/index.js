@@ -8,7 +8,7 @@ const router = express.Router()
 
 // Get all categories
 router.get('/categories', (req, res, next) => {
-	// console.log("\n...Request received: GET /categories")
+	console.log("\n...Request received: GET /categories")
 
 	Category.find({}, (err, categories) => {
 		if (err) {
@@ -21,7 +21,7 @@ router.get('/categories', (req, res, next) => {
 
 // Get all posts
 router.get('/posts', (req, res, next) => {
-	// console.log("\n...Request received: GET /posts")
+	console.log("\n...Request received: GET /posts")
 
 	Post.find({}, (err, posts) => {
 		if (err) {
@@ -48,7 +48,7 @@ router.get('/:category/posts', (req, res, next) => {
 
 // Get single post
 router.get('/posts/:_id', (req, res, next) => {
-	// console.log(`\n...Request received: GET /posts/${req.params._id}`)
+	console.log(`\n...Request received: GET /posts/${req.params._id}`)
 	
 	Post.findById(req.params._id, (err, post) => {
 		if (err) {
@@ -61,7 +61,7 @@ router.get('/posts/:_id', (req, res, next) => {
 
 // Get comments for single post
 router.get('/posts/:_id/comments', (req, res, next) => {
-	// console.log(`\n...Request received: GET /posts/${req.params._id}/comments`)
+	console.log(`\n...Request received: GET /posts/${req.params._id}/comments`)
 	
 	Comment.find({parentId: req.params._id}, (err, comments) => {
 		if (err) {
@@ -74,7 +74,7 @@ router.get('/posts/:_id/comments', (req, res, next) => {
 
 // Get single comment
 router.get('/comments/:_id', (req, res, next) => {
-	// console.log(`\n...Request received: GET /comments/${req.params._id}`)
+	console.log(`\n...Request received: GET /comments/${req.params._id}`)
 	
 	Comment.findById(req.params._id, (err, comment) => {
 		if (err) {
@@ -87,8 +87,8 @@ router.get('/comments/:_id', (req, res, next) => {
 
 // Add post
 router.post('/posts', (req, res, next) => {
-	// console.log("\n...Request received: POST /posts")
-	// console.log(req.body)
+	console.log("\n...Request received: POST /posts")
+	console.log(req.body)
 
 	Post.create(req.body, (err, post) => {
 		if (err) {
@@ -101,8 +101,8 @@ router.post('/posts', (req, res, next) => {
 
 // Vote on a post
 router.post('/posts/:_id', (req, res, next) => {
-	// console.log(`\n...Request received: POST /posts/${req.params._id}`)
-	// console.log(req.body)
+	console.log(`\n...Request received: POST /posts/${req.params._id}`)
+	console.log(req.body)
 
 	let incAmount = 0
 	if (req.body.option === "upVote") {
@@ -122,8 +122,8 @@ router.post('/posts/:_id', (req, res, next) => {
 
 // Add a comment
 router.post('/comments', (req, res, next) => {
-	// console.log(`\n...Request received: POST /comments/`)
-  // console.log(req.body)
+	console.log(`\n...Request received: POST /comments/`)
+  console.log(req.body)
 
   Comment.create(req.body, (err, comment) => {
   	if (err) {
@@ -136,8 +136,8 @@ router.post('/comments', (req, res, next) => {
 
 // Vote on a comment
 router.post('/comments/:_id', (req, res, next) => {
-	// console.log(`\n...Request received: POST /comments/${req.params._id}`)
-	// console.log(req.body)
+	console.log(`\n...Request received: POST /comments/${req.params._id}`)
+	console.log(req.body)
 
 	let incAmount = 0
 	if (req.body.option === "upVote") {
@@ -157,8 +157,8 @@ router.post('/comments/:_id', (req, res, next) => {
 
 // Edit a post
 router.put('/posts/:_id', (req, res, next) => {
-	// console.log(`\n...Request received: PUT /posts/${req.params._id}`)
-	// console.log(req.body)
+	console.log(`\n...Request received: PUT /posts/${req.params._id}`)
+	console.log(req.body)
 
 	Post.findOneAndUpdate({ _id: req.params._id }, req.body, { new: true }, (err, result) => {
 		if (err) {
@@ -171,8 +171,8 @@ router.put('/posts/:_id', (req, res, next) => {
 
 // Edit a comment
 router.put('/comments/:_id', (req, res, next) => {
-	// console.log(`\n...Request received: PUT /comments/${req.params._id}`)
-  // console.log(req.body)
+	console.log(`\n...Request received: PUT /comments/${req.params._id}`)
+  console.log(req.body)
 	
 	Comment.findOneAndUpdate({ _id: req.params._id }, req.body, {new: true}, (err, result) => {
 		if (err) {
@@ -185,9 +185,9 @@ router.put('/comments/:_id', (req, res, next) => {
 
 // Delete a post and its comments
 router.delete('/posts/:_id', (req, res, next) => {
-	// console.log(`\n...Request received: DELETE /posts/${req.params._id}`)
+	console.log(`\n...Request received: DELETE /posts/${req.params._id}`)
 	
-	Post.deleteOne({ _id: req.params._id }, (err, postResult) => {
+	Post.findOneAndRemove({ _id: req.params._id }, (err, post) => {
 		if (err) {
 			return next(err)
 		} else {
@@ -195,8 +195,7 @@ router.delete('/posts/:_id', (req, res, next) => {
 				if (err) {
 					return next(err)
 				} else {
-					const combinedResult = { postResult, commentResult }
-					res.status(200).send(combinedResult)
+					res.status(200).send(JSON.stringify(post))
 				}
 			})
 		}
@@ -205,13 +204,13 @@ router.delete('/posts/:_id', (req, res, next) => {
 
 // Delete a comment
 router.delete('/comments/:_id', (req, res, next) => {
-	// console.log(`\n...Request received: DELETE /comments/${req.params._id}`)
+	console.log(`\n...Request received: DELETE /comments/${req.params._id}`)
 	
-	Comment.deleteOne({ _id: req.params._id }, (err, result) => {
+	Comment.findOneAndRemove({ _id: req.params._id}, (err, comment) => {
 		if (err) {
 			return next(err)
 		} else {
-			res.status(200).send({ _id: result._id, ok: result.ok })
+			res.status(200).send(JSON.stringify(comment))
 		}
 	})
 })

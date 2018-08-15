@@ -30,11 +30,6 @@ const PostSchema = new mongoose.Schema({
 		type: Number,
 		required: true,
 		default: 0
-	},
-	commentCount: {
-		type: Number,
-		required: true,
-		default: 0
 	}
 })
 
