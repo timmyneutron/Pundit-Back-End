@@ -34,7 +34,6 @@ router.get('/:category/posts', (req, res, next) => {
 		if (err) {
 			return next(err)
 		} else {
-			console.log(posts)
 			res.status(200).send(posts)
 		}
 	})
